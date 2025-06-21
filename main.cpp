@@ -1,11 +1,4 @@
-#include<iostream>
-#include<vector>
-#include<string>
-#include<chrono>
-#include<iomanip>
-#include<regex>
-#include<set>
-#include<map>
+#include<bits/stdc++.h>
 
 using namespace std;
 
@@ -305,6 +298,7 @@ int main(){
             for(auto v : adj[u[0]]){
                 sum += value[v[0]];
                 sum_of_square += value[v[0]] * value[v[0]];
+                ++cnt;
             }
             float mean = sum * 1.00 / cnt;
             float dev = 0.00;
@@ -317,6 +311,7 @@ int main(){
             int sum = 0;
             for(auto v : adj[u[0]]){
                 sum += value[v[0]];
+                ++cnt;
             }
             float mean = sum * 1.00 / cnt;
             value[u[0]] =  mean;
@@ -326,25 +321,27 @@ int main(){
                 value[u[0]] = value[v[0]];
             }
         }
-        else if(u[1] == "product"){
-            int t = 1;
-            for(auto v : adj[u[0]]){
-                t *= value[v[0]];
-            }
-            value[u[0]] = t;
-        }
-        else if(u[1] == "divide"){
-            array<string, 2> first_element = *(adj[u[0]].begin());
-            auto it = adj[u[0]].begin(); ++it;
-            array<string, 2> second_element = (*it);  
-            value[u[0]] = value[first_element[0]] / value[second_element[0]];      
-        }
-        else if(u[1] == "diff"){
-            array<string, 2> first_element = *(adj[u[0]].begin());
-            auto it = adj[u[0]].begin(); ++it;
-            array<string, 2> second_element = (*it);  
-            value[u[0]] = value[first_element[0]] - value[second_element[0]];          
-        }
+
+        // else if(u[1] == "product"){
+        //     int t = 1;
+        //     for(auto v : adj[u[0]]){
+        //         t *= value[v[0]];
+        //     }
+        //     value[u[0]] = t;
+        // }
+        // else if(u[1] == "divide"){
+        //     array<string, 2> first_element = *(adj[u[0]].begin());
+        //     auto it = adj[u[0]].begin(); ++it;
+        //     array<string, 2> second_element = (*it);  
+        //     value[u[0]] = value[first_element[0]] / value[second_element[0]];      
+        // }
+        // else if(u[1] == "diff"){
+        //     array<string, 2> first_element = *(adj[u[0]].begin());
+        //     auto it = adj[u[0]].begin(); ++it;
+        //     array<string, 2> second_element = (*it);  
+        //     value[u[0]] = value[first_element[0]] - value[second_element[0]];          
+        // }
+        
         else{
             string s1,s2;
             int value1=0;
@@ -627,18 +624,18 @@ int main(){
                             rev_adj[u[0]].erase({lhs, u[1]});
                         }
                         adj[lhs].clear();
-                        adj[lhs].insert({rhs1, "diff"});
-                        adj[lhs].insert({rhs2, "diff"});
-                        rev_adj[rhs1].insert({lhs, "diff"});
-                        rev_adj[rhs2].insert({lhs, "diff"});
+                        adj[lhs].insert({rhs1, rhs});
+                        adj[lhs].insert({rhs2, rhs});
+                        rev_adj[rhs1].insert({lhs, rhs});
+                        rev_adj[rhs2].insert({lhs, rhs});
                         map<string, int> visited;
-                        int check = find_cycle({lhs, "diff"}, visited);
+                        int check = find_cycle({lhs, rhs}, visited);
                         if(check){
                             response = "circular dependencies";
-                            adj[lhs].erase({rhs1, "diff"});
-                            adj[lhs].erase({rhs2, "diff"});
-                            rev_adj[rhs1].erase({lhs, "diff"});
-                            rev_adj[rhs2].erase({lhs, "diff"});
+                            adj[lhs].erase({rhs1, rhs});
+                            adj[lhs].erase({rhs2, rhs});
+                            rev_adj[rhs1].erase({lhs, rhs});
+                            rev_adj[rhs2].erase({lhs, rhs});
                         }
                         else{
                             map<string, int> visited;
@@ -760,18 +757,18 @@ int main(){
                             rev_adj[u[0]].erase({lhs, u[1]});
                         }
                         adj[lhs].clear();
-                        adj[lhs].insert({rhs1, "product"});
-                        adj[lhs].insert({rhs2, "product"});
-                        rev_adj[rhs1].insert({lhs, "product"});
-                        rev_adj[rhs2].insert({lhs, "product"});
+                        adj[lhs].insert({rhs1, rhs});
+                        adj[lhs].insert({rhs2, rhs});
+                        rev_adj[rhs1].insert({lhs, rhs});
+                        rev_adj[rhs2].insert({lhs, rhs});
                         map<string, int> visited;
-                        int check = find_cycle({lhs, "product"}, visited);
+                        int check = find_cycle({lhs, rhs}, visited);
                         if(check){
                             response = "circular dependencies";
-                            adj[lhs].erase({rhs1, "product"});
-                            adj[lhs].erase({rhs2, "product"});
-                            rev_adj[rhs1].erase({lhs, "product"});
-                            rev_adj[rhs2].erase({lhs, "product"});
+                            adj[lhs].erase({rhs1, rhs});
+                            adj[lhs].erase({rhs2, rhs});
+                            rev_adj[rhs1].erase({lhs, rhs});
+                            rev_adj[rhs2].erase({lhs, rhs});
                         }
                         else{
                             map<string, int> visited;
@@ -892,18 +889,18 @@ int main(){
                             rev_adj[u[0]].erase({lhs, u[1]});
                         }
                         adj[lhs].clear();
-                        adj[lhs].insert({rhs1, "divide"});
-                        adj[lhs].insert({rhs2, "divide"});
-                        rev_adj[rhs1].insert({lhs, "divide"});
-                        rev_adj[rhs2].insert({lhs, "divide"});
+                        adj[lhs].insert({rhs1, rhs});
+                        adj[lhs].insert({rhs2, rhs});
+                        rev_adj[rhs1].insert({lhs, rhs});
+                        rev_adj[rhs2].insert({lhs, rhs});
                         map<string, int> visited;
-                        int check = find_cycle({lhs, "divide"}, visited);
+                        int check = find_cycle({lhs, rhs}, visited);
                         if(check){
                             response = "circular dependencies";
-                            adj[lhs].erase({rhs1, "divide"});
-                            adj[lhs].erase({rhs2, "divide"});
-                            rev_adj[rhs1].erase({lhs, "divide"});
-                            rev_adj[rhs2].erase({lhs, "divide"});
+                            adj[lhs].erase({rhs1, rhs});
+                            adj[lhs].erase({rhs2, rhs});
+                            rev_adj[rhs1].erase({lhs, rhs});
+                            rev_adj[rhs2].erase({lhs, rhs});
                         }
                         else{
                             map<string, int> visited;
@@ -1017,8 +1014,110 @@ int main(){
                 }
             }
             else if(code == 4){
-                
+                smatch match;
+                if(regex_match(rhs, match, regex("(MIN|MAX|AVG|SUM|STDEV)\\(([^)]+)\\)"))){
+                    string func = match[1];
+                    string range = match[2];
+
+                    smatch m1, m2;
+                    regex rgx("([A-Z]+)([1-9][0-9]*)");
+                    string range1 = range.substr(0, range.find(':'));
+                    string range2 = range.substr(range.find(':') + 1);
+                    regex_match(range1, m1, rgx);
+                    regex_match(range2, m2, rgx);
+
+                    string col1 = m1[1], col2 = m2[1];
+                    int row1 = stoi(m1[2]), row2 = stoi(m2[2]);
+
+                    for(auto& u: adj[lhs]){
+                        rev_adj[u[0]].erase({lhs, u[1]});
+                    }
+                    adj[lhs].clear();
+                    for (char& c : func) c = tolower(c);
+                    for(int i = row1; i <= row2; i++){
+                        for(int j = convert_string_to_number(col1); j <= convert_string_to_number(col2); j++){
+                            string s = convert_number_to_string(j + 1) + to_string(i);
+                            adj[lhs].insert({s, func});
+                            rev_adj[s].insert({lhs, func});
+                        }
+                    }
+
+                    map<string, int> visited;
+                    int check = find_cycle({lhs, func}, visited);
+                    if(check){
+                        response = "circular dependencies";
+                        for(auto& u: adj[lhs]){
+                            rev_adj[u[0]].erase({lhs, func});
+                        }
+                        adj[lhs].clear();
+                    }
+                    else{
+                        update({lhs, func});
+                        map<string, int> visited;
+                        vector<array<string,2>> top_sort_order;
+                        function<void(string)> dfs = [&] (string node){
+                            visited[node] = true;
+                            for(auto u : rev_adj[node]){
+                                if(visited[u[0]]) continue;
+                                dfs(u[0]);
+                                top_sort_order.push_back(u);
+                            }
+                        };
+                        dfs(lhs);
+                        reverse(top_sort_order.begin(), top_sort_order.end());
+                        for(auto u:top_sort_order){
+                            update(u);
+                        }
+                    }
+                }
+                else if(regex_match(rhs, match, regex("SLEEP\\(([^)]+)\\)"))){
+                    string arg = match[1];
+
+                    for(auto& u: adj[lhs]){
+                        rev_adj[u[0]].erase({lhs, u[1]});
+                    }
+                    adj[lhs].clear();
+
+                    if(is_valid_cell(arg)){
+                        adj[lhs].insert({arg, "sleep"});
+                        rev_adj[arg].insert({lhs, "sleep"});
+                        map<string, int> visited;
+                        int check = find_cycle({lhs, "sleep"}, visited);
+                        if(check){
+                            response = "circular dependencies";
+                            adj[lhs].erase({arg, "sleep"});
+                            rev_adj[arg].erase({lhs, "sleep"});
+                        }
+                        else{
+                            this_thread::sleep_for(chrono::milliseconds(value[arg]));
+                            value[lhs] = value[arg];
+                            update_matrix(lhs);
+                            vector<array<string,2>> top_sort_order;
+                            map<string, int> visited;
+                            function<void(string)> dfs = [&] (string node){
+                                visited[node] = true;
+                                for(auto u : rev_adj[node]){
+                                    if(visited[u[0]]) continue;
+                                    dfs(u[0]);
+                                    top_sort_order.push_back(u);
+                                }
+                            };
+                            dfs(lhs);
+                            reverse(top_sort_order.begin(), top_sort_order.end());
+                            for(auto u:top_sort_order){
+                                update(u);
+                            }
+                        }
+                    }
+                    else{
+                        int sleep_time = stoi(arg);
+                        this_thread::sleep_for(chrono::milliseconds(sleep_time));
+                        value[lhs] = sleep_time;
+                        update_matrix(lhs);
+                    }
+                }
             }
+
             else if(code == 5){
                 response = "Invalid range";
             }
